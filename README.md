@@ -35,6 +35,34 @@ Dataset yang digunakan terdiri dari tiga file utama:
 Dataset ini dapat diunduh dari [book-recommendation-dataset](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset).
 
 **Deskripsi variabel:**
+
+**Books.csv**
+- `ISBN`: Kode unik buku.
+- `Book_Title`: Judul buku.
+- `Book_Author`: Nama penulis.
+- `Year_Of_Publication`: Tahun terbit buku.
+- `Publisher`: Nama penerbit.
+- `Image_URL_S`: URL gambar sampul buku ukuran kecil.
+- `Image_URL_M`: URL gambar sampul buku ukuran sedang.
+- `Image_URL_L`: URL gambar sampul buku ukuran besar.
+
+**Users.csv**
+- `User_ID`: ID unik pengguna.
+- `Location`: Lokasi pengguna.
+- `Age`: Usia pengguna.
+
+**Ratings.csv**
+- `User_ID`: ID unik pengguna.
+- `ISBN`: Kode unik buku.
+- `Book_Rating`: Rating yang diberikan pengguna (0–10).
+
+**Insight Data:**
+- Terdapat 271.360 entri buku, 278.858 pengguna, dan 1.149.780 interaksi rating.
+- Terdapat missing value pada beberapa kolom (Book_Author, Publisher, Age).
+- Ditemukan outlier pada kolom usia (0 dan 244 tahun).
+- Distribusi rating didominasi oleh nilai tertentu, dan data bersifat sparse.
+
+**Deskripsi variabel:**
 - `ISBN`: Kode unik buku.
 - `Book_Title`: Judul buku.
 - `Book_Author`: Nama penulis.
@@ -62,6 +90,8 @@ Dataset ini dapat diunduh dari [book-recommendation-dataset](https://www.kaggle.
 - **Ambil rating eksplisit** (Book_Rating ≠ 0).
 - **Filter pengguna aktif** (minimal 5 rating) dan buku populer (minimal 10 rating).
 - **Gabungkan data** menjadi satu dataframe untuk analisis dan modeling.
+- **Ekstraksi Fitur Teks dengan TF-IDF:**  
+  Pada tahap persiapan data, fitur teks (judul, penulis, penerbit) digabungkan dan diubah menjadi representasi numerik menggunakan teknik **TF-IDF (Term Frequency-Inverse Document Frequency)**. Hasil transformasi ini akan digunakan untuk menghitung kemiripan antar buku pada tahap modeling.
 
 _Alasan:_  
 Tahapan ini penting untuk memastikan data yang digunakan bersih, konsisten, dan relevan untuk membangun model rekomendasi yang akurat.
@@ -71,14 +101,19 @@ Tahapan ini penting untuk memastikan data yang digunakan bersih, konsisten, dan 
 ### Content-Based Filtering
 
 - Menggabungkan fitur konten buku (judul, penulis, penerbit).
-- Menggunakan TF-IDF vectorizer dan cosine similarity untuk menghitung kemiripan antar buku.
+- Menggunakan cosine similarity untuk menghitung kemiripan antar buku.
 - Rekomendasi diberikan berdasarkan buku yang mirip dengan buku yang pernah disukai pengguna.
+
+
+![Contoh Hasil Rekomendasi](gambar/conten-based.png)
 
 ### Collaborative Filtering (SVD)
 
 - Menggunakan library `surprise` untuk matrix factorization.
 - Model SVD dilatih pada data rating eksplisit.
 - Prediksi rating buku yang belum pernah dibaca pengguna, lalu rekomendasikan top-N dengan prediksi tertinggi.
+
+![Contoh Hasil Rekomendasi](gambar/collaborative-filtering.png)
 
 **Kelebihan & Kekurangan:**
 - Content-Based: Tidak mengalami cold start untuk item baru, namun kurang personalisasi.
@@ -93,8 +128,6 @@ Tahapan ini penting untuk memastikan data yang digunakan bersih, konsisten, dan 
   - Average Precision@5: 0.0367  
   - Average Recall@5: 0.1344
 
-![Contoh Hasil Rekomendasi](gambar\conten-based.png)
-
 **Formula:**
 - Precision@K = (Jumlah rekomendasi relevan di top-K) / K
 - Recall@K = (Jumlah rekomendasi relevan di top-K) / (Jumlah item relevan)
@@ -105,8 +138,6 @@ Tahapan ini penting untuk memastikan data yang digunakan bersih, konsisten, dan 
 - **Hasil:**  
   - RMSE: 3.5830  
   - MAE: 2.9496
-
-![Contoh Hasil Rekomendasi](gambar\collaborative-filtering.png)
 
 **Formula:**
 - RMSE = sqrt(mean((rating_prediksi - rating_asli)^2))
