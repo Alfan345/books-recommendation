@@ -93,6 +93,8 @@ Tahapan ini penting untuk memastikan data yang digunakan bersih, konsisten, dan 
   - Average Precision@5: 0.0367  
   - Average Recall@5: 0.1344
 
+![Contoh Hasil Rekomendasi](gambar\conten-based.png)
+
 **Formula:**
 - Precision@K = (Jumlah rekomendasi relevan di top-K) / K
 - Recall@K = (Jumlah rekomendasi relevan di top-K) / (Jumlah item relevan)
@@ -101,8 +103,10 @@ Tahapan ini penting untuk memastikan data yang digunakan bersih, konsisten, dan 
 
 - **Metrik:** Root Mean Squared Error (RMSE) dan Mean Absolute Error (MAE).
 - **Hasil:**  
-  - RMSE: 3.5773  
-  - MAE: 2.9428
+  - RMSE: 3.5830  
+  - MAE: 2.9496
+
+![Contoh Hasil Rekomendasi](gambar\collaborative-filtering.png)
 
 **Formula:**
 - RMSE = sqrt(mean((rating_prediksi - rating_asli)^2))
